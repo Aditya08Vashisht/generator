@@ -37,6 +37,20 @@ Before you begin, make sure you have the following set up:
 >  
 > If you don’t want to use Docker, you can install Mosquitto manually. Follow the [official installation guide](https://mosquitto.org/download/) for your operating system.
 
+## Handling Diagnostics (Warnings)
+
+When using the latest AsyncAPI parser, it's important to handle not just errors but also diagnostics (warnings). These help identify non-critical issues, such as missing recommended fields like `license`, `contact`, or outdated spec versions.
+
+```ts
+const { parseFromFile } = require('@asyncapi/parser');
+
+const result = await parseFromFile('example-asyncapi.yaml');
+
+if (result.diagnostics && result.diagnostics.length > 0) {
+  console.warn('⚠️ Found diagnostics:');
+  console.dir(result.diagnostics, { depth: null });
+}
+
 ## Background context
 
 There is a list of [community maintained templates](https://www.asyncapi.com/docs/tools/generator/template#generator-templates-list), but what if you do not find what you need? In that case, you'll create a user-defined template that generates custom output from the generator.
